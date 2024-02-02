@@ -23,3 +23,4 @@
 /Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/NerkhAPI.pdb
 /Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/NerkhAPI.genruntimeconfig.cache
 /Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/ref/NerkhAPI.dll
+/Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/NerkhAPI.sourcelink.json
