@@ -28,7 +28,7 @@ namespace NerkhAPI.Controllers
                 return NoContent();
             foreach (var quote in response.data)
             {
-                latestQuotes.Add(new Quote() { Name = quote.name, Price = double.Parse(quote.priceUsd) });
+                latestQuotes.Add(new Quote() { Name = quote.name, Symbol = quote.symbol, Price = double.Parse(quote.priceUsd) });
             }
             return Ok(latestQuotes);
         }
