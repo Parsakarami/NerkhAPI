@@ -24,3 +24,6 @@
 /Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/NerkhAPI.genruntimeconfig.cache
 /Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/ref/NerkhAPI.dll
 /Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/NerkhAPI.sourcelink.json
+/Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/NerkhAPI.csproj.AssemblyReference.cache
+/Users/parsa/Documents/My Repos/DotNet/NerkhAPI/NerkhAPI/obj/Debug/net8.0/NerkhAPI.csproj.CopyComplete
