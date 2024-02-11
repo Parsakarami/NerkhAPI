@@ -19,27 +19,45 @@ namespace NerkhAPI.Controllers
         }
 
         [HttpGet]
-        [Route("crypto")]
-        public async Task<IActionResult> Index()
+        [Route("crypto/{symbols?}")]
+        public async Task<IActionResult> Crpyto(string symbols = null)
         {
-            List<Quote> latestQuotes = new List<Quote>();
-            var result = await cryptoHttpClient.GetAsync("assets");
-            if (!result.IsSuccessStatusCode)
-                return BadRequest();
-
-            var jsonResult = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<CoinCapResponseData>(jsonResult);
-            if (response == null)
-                return NoContent();
-            foreach (var quote in response.data)
+            try
             {
-                latestQuotes.Add(new Quote() { 
-                    Name = quote.name,
-                    Symbol = quote.symbol,
-                    Price = double.Parse(quote.priceUsd),
-                    ChangePercent24Hr = double.Parse(quote.changePercent24Hr)});
+                List<Quote> latestQuotes = new List<Quote>();
+                var coinCapCryptoIDs = CoinCapServiceInfo.CRYPTO_IDS;
+                var result = await cryptoHttpClient.GetAsync($"assets?ids={coinCapCryptoIDs}");
+                if (!result.IsSuccessStatusCode)
+                    return BadRequest();
+
+                var jsonResult = await result.Content.ReadAsStringAsync();
+                var response = JsonConvert.DeserializeObject<CoinCapResponseData>(jsonResult);
+                if (response == null)
+                    return NoContent();
+
+                //apply filter
+                if (symbols != null)
+                {
+                    var requestedSymbols = symbols.Trim().ToUpper().Split(",");
+                    response.data = response.data.Where(a => requestedSymbols.Contains(a.symbol.Trim())).ToList();
+                }
+
+                foreach (var quote in response.data)
+                {
+                    latestQuotes.Add(new Quote()
+                    {
+                        Name = quote.name,
+                        Symbol = quote.symbol,
+                        Price = double.Parse(quote.priceUsd),
+                        ChangePercent24Hr = double.Parse(quote.changePercent24Hr)
+                    });
+                }
+                return Ok(latestQuotes);
             }
-            return Ok(latestQuotes);
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]
@@ -57,9 +75,11 @@ namespace NerkhAPI.Controllers
                 return NoContent();
             foreach (var quote in response.data.rates)
             {
-                latestExchange.Add(new ExchangeRate() { 
+                latestExchange.Add(new ExchangeRate()
+                {
                     Destination = quote.Key,
-                    Rate = quote.Value});
+                    Rate = quote.Value
+                });
             }
             return Ok(latestExchange);
         }

@@ -1,4 +1,9 @@
 namespace NerkhAPI {
+
+    public static class CoinCapServiceInfo{ 
+        public static string CRYPTO_IDS = "bitcoin,ethereum,tether,binance-coin,cardano,solana,usd-coin,xrp,avalanche,dogecoin,polkadot,polygon,shiba-inu,bitcoin-cash,litecoin,stellar";
+    }
+
     public class CoinCapQouteData
     {
         public string id { get; set; }
