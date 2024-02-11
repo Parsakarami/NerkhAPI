@@ -43,7 +43,7 @@ namespace NerkhAPI.Controllers
         }
 
         [HttpGet]
-        [Route("exchange-rate/{currency}")]
+        [Route("exchange-rate/{currency?}")]
         public async Task<IActionResult> ExchangeRate(string currency = "USD")
         {
             List<ExchangeRate> latestExchange = new List<ExchangeRate>();
