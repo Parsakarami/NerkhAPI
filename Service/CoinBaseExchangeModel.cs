@@ -8,17 +8,35 @@ namespace NerkhAPI {
                 "USD","EUR","GBP","CAD","AUD","JPY","CHF","IRR","HKD","NZD","NOK","SEK"
             };
         }
-         
     }
 
+    /// <summary>
+    /// CoinBase Exchange API
+    /// </summary>
+    public class CoinBaseExchangeResponse
+    {
+        public CoinBaseExchangeData data { get; set; }
+    }
     public class CoinBaseExchangeData
     {
         public string currency { get; set; }
         public Dictionary<string,double> rates { get; set; }
     }
 
-    public class CoinBaseExchangeResponse
+
+    
+    /// <summary>
+    /// CoinBase Crypto API
+    /// </summary>
+    public class CoinBaseCryptoResponse
     {
-        public CoinBaseExchangeData data { get; set; }
+        public CoinBaseCryptoData data { get; set; }
+    }
+
+    public class CoinBaseCryptoData
+    {
+        public double amount { get; set; }
+        public string @base { get; set; }
+        public string currency { get; set; }
     }
 }

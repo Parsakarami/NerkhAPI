@@ -86,5 +86,27 @@ namespace NerkhAPI.Controllers
             }
             return Ok(latestExchange);
         }
+
+        [HttpGet]
+        [Route("lastprice/{symbol?}/{currency?}")]
+        public async Task<IActionResult> LastPrice(string symbol = "BTC",string currency = "USD")
+        {
+            symbol = symbol.Trim().ToUpper();
+            currency = currency.Trim().ToUpper();
+
+            Quote latestPrice = new Quote();
+            var result = await coinBaseHttpClient.GetAsync($"prices/{symbol}-{currency}/spot");
+            if (!result.IsSuccessStatusCode)
+                return BadRequest();
+
+            var jsonResult = await result.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<CoinBaseCryptoResponse>(jsonResult);
+            if (response == null)
+                return NoContent();
+
+            latestPrice.Name = latestPrice.Symbol = response.data.@base;
+            latestPrice.Price = response.data.amount;
+            return Ok(latestPrice);
+        }
     }
 }
