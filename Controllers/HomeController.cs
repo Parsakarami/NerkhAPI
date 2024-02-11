@@ -8,14 +8,14 @@ namespace NerkhAPI.Controllers
     [ApiController]
     public class MainController : ControllerBase
     {
-        private static HttpClient cryptoHttpClient;
-        private static HttpClient exchangeHttpClient;
+        private static HttpClient coinCapHttpClient;
+        private static HttpClient coinBaseHttpClient;
         static MainController()
         {
-            cryptoHttpClient = new HttpClient();
-            exchangeHttpClient = new HttpClient();
-            cryptoHttpClient.BaseAddress = new Uri("https://api.coincap.io/v2/");
-            exchangeHttpClient.BaseAddress = new Uri("https://api.coinbase.com/v2/");
+            coinCapHttpClient = new HttpClient();
+            coinBaseHttpClient = new HttpClient();
+            coinCapHttpClient.BaseAddress = new Uri("https://api.coincap.io/v2/");
+            coinBaseHttpClient.BaseAddress = new Uri("https://api.coinbase.com/v2/");
         }
 
         [HttpGet]
@@ -26,7 +26,7 @@ namespace NerkhAPI.Controllers
             {
                 List<Quote> latestQuotes = new List<Quote>();
                 var coinCapCryptoIDs = CoinCapServiceInfo.CRYPTO_IDS;
-                var result = await cryptoHttpClient.GetAsync($"assets?ids={coinCapCryptoIDs}");
+                var result = await coinCapHttpClient.GetAsync($"assets?ids={coinCapCryptoIDs}");
                 if (!result.IsSuccessStatusCode)
                     return BadRequest();
 
@@ -65,7 +65,7 @@ namespace NerkhAPI.Controllers
         public async Task<IActionResult> ExchangeRate(string currency = "USD")
         {
             List<ExchangeRate> latestExchange = new List<ExchangeRate>();
-            var result = await exchangeHttpClient.GetAsync($"exchange-rates?currency={currency}");
+            var result = await coinBaseHttpClient.GetAsync($"exchange-rates?currency={currency}");
             if (!result.IsSuccessStatusCode)
                 return BadRequest();
 
@@ -73,6 +73,9 @@ namespace NerkhAPI.Controllers
             var response = JsonConvert.DeserializeObject<CoinBaseExchangeResponse>(jsonResult);
             if (response == null)
                 return NoContent();
+
+            //applying filter
+            response.data.rates = response.data.rates.Where(a=>CoinBaseServiceInfo.EXCHANGE_IDS.Contains(a.Key)).ToDictionary();
             foreach (var quote in response.data.rates)
             {
                 latestExchange.Add(new ExchangeRate()
