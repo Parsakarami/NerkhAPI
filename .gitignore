@@ -1,5 +1,5 @@
-
 *.pdb
 *.dll
 *.sourcelink.json
-*.pdb
+*.AssemblyInfo.cs
+*.AssemblyInfoInputs.cache
