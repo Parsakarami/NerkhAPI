@@ -84,7 +84,7 @@ namespace NerkhAPI.Controllers
                     Rate = quote.Value
                 };
                 
-                if (data.Destination != "IRR") {
+                if (data.Destination == "IRR") {
                     data.Destination = "TOMAN";
                 }
 
