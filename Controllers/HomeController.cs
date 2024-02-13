@@ -78,11 +78,17 @@ namespace NerkhAPI.Controllers
             response.data.rates = response.data.rates.Where(a=>CoinBaseServiceInfo.EXCHANGE_IDS.Contains(a.Key)).ToDictionary();
             foreach (var quote in response.data.rates)
             {
-                latestExchange.Add(new ExchangeRate()
+                var data = new ExchangeRate()
                 {
                     Destination = quote.Key,
                     Rate = quote.Value
-                });
+                };
+                
+                if (data.Destination != "IRR") {
+                    data.Destination = "TOMAN";
+                }
+
+                latestExchange.Add(data);
             }
             return Ok(latestExchange);
         }
