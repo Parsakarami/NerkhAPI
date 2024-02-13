@@ -65,6 +65,11 @@ namespace NerkhAPI.Controllers
         public async Task<IActionResult> ExchangeRate(string currency = "USD")
         {
             List<ExchangeRate> latestExchange = new List<ExchangeRate>();
+
+            if (currency.Trim().ToUpper() == "TOMAN"){
+                currency = "IRR";
+            }
+
             var result = await coinBaseHttpClient.GetAsync($"exchange-rates?currency={currency}");
             if (!result.IsSuccessStatusCode)
                 return BadRequest();
