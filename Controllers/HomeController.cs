@@ -61,6 +61,42 @@ namespace NerkhAPI.Controllers
         }
 
         [HttpGet]
+        [Route("crypto/details/{symbol}")]
+        public async Task<IActionResult> CrpytoDetail(string symbol)
+        {
+            try
+            {
+                var detailQuote = new DetailQuote();
+                var result = await coinCapHttpClient.GetAsync($"assets?ids={symbol}");
+                if (!result.IsSuccessStatusCode)
+                    return BadRequest();
+
+                var jsonResult = await result.Content.ReadAsStringAsync();
+                var response = JsonConvert.DeserializeObject<CoinCapResponseData>(jsonResult);
+                if (response == null || response.data.Count == 0)
+                    return NoContent();
+
+                foreach (var quote in response.data)
+                {
+                         detailQuote.Name = quote.name;
+                         detailQuote.Symbol = quote.symbol;
+                         detailQuote.Supply = double.Parse(quote.supply);
+                         detailQuote.MaxSupply = double.Parse(quote.maxSupply);
+                         detailQuote.MarketCapUsd = double.Parse(quote.marketCapUsd);
+                         detailQuote.VolumeUsd24Hr = double.Parse(quote.volumeUsd24Hr);
+                         detailQuote.PriceUsd = double.Parse(quote.priceUsd);
+                         detailQuote.ChangePercent24Hr = double.Parse(quote.changePercent24Hr);
+                         detailQuote.Vwap24Hr = double.Parse(quote.vwap24Hr);
+                }
+                return Ok(detailQuote);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
         [Route("exchange-rate/{currency?}")]
         public async Task<IActionResult> ExchangeRate(string currency = "USD")
         {
