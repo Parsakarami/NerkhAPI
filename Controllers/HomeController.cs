@@ -54,9 +54,9 @@ namespace NerkhAPI.Controllers
                 }
                 return Ok(latestQuotes);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
 
@@ -90,9 +90,9 @@ namespace NerkhAPI.Controllers
                 }
                 return Ok(detailQuote);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
         }
 
@@ -100,6 +100,7 @@ namespace NerkhAPI.Controllers
         [Route("exchange-rate/{currency?}")]
         public async Task<IActionResult> ExchangeRate(string currency = "USD")
         {
+            try {
             List<ExchangeRate> latestExchange = new List<ExchangeRate>();
 
             if (currency.Trim().ToUpper() == "TOMAN"){
@@ -132,12 +133,18 @@ namespace NerkhAPI.Controllers
                 latestExchange.Add(data);
             }
             return Ok(latestExchange);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpGet]
         [Route("lastprice/{symbol?}/{currency?}")]
         public async Task<IActionResult> LastPrice(string symbol = "BTC",string currency = "USD")
         {
+            try {
             symbol = symbol.Trim().ToUpper();
             currency = currency.Trim().ToUpper();
 
@@ -154,6 +161,11 @@ namespace NerkhAPI.Controllers
             latestPrice.Name = latestPrice.Symbol = response.data.@base;
             latestPrice.Price = response.data.amount;
             return Ok(latestPrice);
+            }
+             catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }
