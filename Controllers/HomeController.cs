@@ -64,8 +64,6 @@ namespace NerkhAPI.Controllers
         [Route("crypto/details/{symbol}")]
         public async Task<IActionResult> CrpytoDetail(string symbol)
         {
-            try
-            {
                 var detailQuote = new DetailQuote();
                 var result = await coinCapHttpClient.GetAsync($"assets?ids={symbol}");
                 if (!result.IsSuccessStatusCode)
@@ -80,20 +78,15 @@ namespace NerkhAPI.Controllers
                 {
                          detailQuote.Name = quote.name;
                          detailQuote.Symbol = quote.symbol;
-                         detailQuote.Supply = double.Parse(quote.supply);
-                         detailQuote.MaxSupply = double.Parse(quote.maxSupply);
-                         detailQuote.MarketCapUsd = double.Parse(quote.marketCapUsd);
-                         detailQuote.VolumeUsd24Hr = double.Parse(quote.volumeUsd24Hr);
-                         detailQuote.PriceUsd = double.Parse(quote.priceUsd);
-                         detailQuote.ChangePercent24Hr = double.Parse(quote.changePercent24Hr);
-                         detailQuote.Vwap24Hr = double.Parse(quote.vwap24Hr);
+                         detailQuote.Supply = quote.supply != null ? double.Parse(quote.supply) : null;
+                         detailQuote.MaxSupply = quote.maxSupply != null ? double.Parse(quote.maxSupply) : null;
+                         detailQuote.MarketCapUsd = quote.marketCapUsd != null ? double.Parse(quote.marketCapUsd) : null; 
+                         detailQuote.VolumeUsd24Hr = quote.volumeUsd24Hr != null ? double.Parse(quote.volumeUsd24Hr) : null; 
+                         detailQuote.PriceUsd = quote.priceUsd != null ? double.Parse(quote.priceUsd) : null; 
+                         detailQuote.ChangePercent24Hr = quote.changePercent24Hr != null ? double.Parse(quote.changePercent24Hr) : null; 
+                         detailQuote.Vwap24Hr =  quote.vwap24Hr != null ? double.Parse(quote.vwap24Hr) : null; 
                 }
                 return Ok(detailQuote);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
         }
 
         [HttpGet]

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NerkhAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+572311d5127c5bdb02d90a81df78b651ab0ec27a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12bde3f88d612064bee1bffb54ccdf38eb7b1c39")]
 [assembly: System.Reflection.AssemblyProductAttribute("NerkhAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NerkhAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
